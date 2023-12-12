@@ -193,17 +193,13 @@ def make_latex_speakable(text):
 
 
 def main_backend(window):
-    time.sleep(10)
     def display_html(html):
         window.evaluate_js(f"window.updateHtml(String.raw`{html}`);")
 
     collection = Collection(ANKI_PATH)
-    cards = collection.find_cards('tag:"demo"')
 
     try:
-        # while current_card := collection.sched.getCard():
-        for card_id in cards:
-            current_card = collection.get_card(card_id)
+        while current_card := collection.sched.getCard():
             # TODO: handle cloze cards
             if "basic" not in current_card.note_type()["name"].lower():
                 log.debug("Skipping cloze")
